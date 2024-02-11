@@ -13,6 +13,7 @@ import {
   Settings,
   VideoIcon,
 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const monserrat = Montserrat({ subsets: ['latin'], weight: '600' });
 
@@ -62,6 +63,7 @@ const routes = [
 ];
 
 export default function Sidebar() {
+  const pathname = usePathname();
   return (
     <div className='h-full space-y-4 py-4 flex flex-col text-white bg-[#111827]'>
       <div className='px-3 py-2 flex-1'>
@@ -76,7 +78,10 @@ export default function Sidebar() {
             <Link
               key={href}
               href={href}
-              className='group flex items-center p-3 text-sm w-full font-medium rounded-lg justify-start cursor-pointer transition hover:text-white hover:bg-white/10'
+              className={cn(
+                'group flex items-center p-3 text-sm w-full font-medium rounded-lg justify-start cursor-pointer transition hover:text-white hover:bg-white/10',
+                pathname === href ? 'text-white bg-white/10' : 'text-zinc-400'
+              )}
             >
               <div className='flex items-center flex-1'>
                 <Icon
