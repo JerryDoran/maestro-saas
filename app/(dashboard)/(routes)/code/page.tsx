@@ -55,6 +55,9 @@ export default function CodePage() {
       if (error?.response?.status === 403) {
         proModal.onOpen();
       }
+    } finally {
+      // This refetches data for all server components no matter what page you are on
+      router.refresh();
     }
   }
   return (
@@ -139,7 +142,9 @@ export default function CodePage() {
                   }}
                   className='text-sm overflow-hidden leading-7'
                 >
-                  {message.content || []}
+                  {message.content && typeof message.content === 'string'
+                    ? message.content
+                    : ''}
                 </ReactMarkdown>
               </div>
             ))}

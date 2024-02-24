@@ -60,6 +60,9 @@ export default function ImagePage() {
       if (error?.response?.status === 403) {
         proModal.onOpen();
       }
+    }finally {
+      // This refetches data for all server components no matter what page you are on
+      router.refresh();
     }
   }
   return (

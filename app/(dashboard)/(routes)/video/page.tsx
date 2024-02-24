@@ -47,6 +47,10 @@ export default function VideoPage() {
         proModal.onOpen();
       }
     }
+    finally {
+      // This refetches data for all server components no matter what page you are on
+      router.refresh();
+    }
   }
   return (
     <div>
