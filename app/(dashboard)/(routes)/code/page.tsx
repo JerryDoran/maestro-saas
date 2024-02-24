@@ -21,6 +21,7 @@ import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import UserAvatar from '@/components/user-avatar';
 import BotAvatar from '@/components/bot-avatar';
 import ReactMarkdown from 'react-markdown';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 export default function CodePage() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export default function CodePage() {
   });
 
   const isLoading = form.formState.isSubmitting;
+  const proModal = useProModal();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -50,8 +52,9 @@ export default function CodePage() {
 
       form.reset();
     } catch (error: any) {
-      // TODO: Open Pro Modal
-      console.log(error);
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
     }
   }
   return (

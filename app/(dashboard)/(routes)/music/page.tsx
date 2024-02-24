@@ -16,6 +16,7 @@ import { formSchema } from './constants';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 export default function MusicPage() {
   const router = useRouter();
@@ -30,6 +31,8 @@ export default function MusicPage() {
 
   const isLoading = form.formState.isSubmitting;
 
+  const proModal = useProModal();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setMusic(undefined);
@@ -40,8 +43,9 @@ export default function MusicPage() {
 
       form.reset();
     } catch (error: any) {
-      // TODO: Open Pro Modal
-      console.log(error);
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
     }
   }
   return (

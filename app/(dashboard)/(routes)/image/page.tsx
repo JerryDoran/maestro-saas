@@ -26,6 +26,7 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 import { Card, CardFooter } from '@/components/ui/card';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 export default function ImagePage() {
   const router = useRouter();
@@ -42,6 +43,8 @@ export default function ImagePage() {
 
   const isLoading = form.formState.isSubmitting;
 
+  const proModal = useProModal();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setImages([]);
@@ -54,8 +57,9 @@ export default function ImagePage() {
 
       // form.reset();
     } catch (error: any) {
-      // TODO: Open Pro Modal
-      console.log(error);
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
     }
   }
   return (

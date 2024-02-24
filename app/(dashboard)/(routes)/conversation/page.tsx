@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import UserAvatar from '@/components/user-avatar';
 import BotAvatar from '@/components/bot-avatar';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 export default function ConversationPage() {
   const router = useRouter();
@@ -32,6 +33,7 @@ export default function ConversationPage() {
   });
 
   const isLoading = form.formState.isSubmitting;
+  const proModal = useProModal();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -49,8 +51,12 @@ export default function ConversationPage() {
 
       form.reset();
     } catch (error: any) {
-      // TODO: Open Pro Modal
-      console.log(error);
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
+    } finally {
+      // This refetches data for all server components no matter what page you are on
+      router.refresh();
     }
   }
   return (

@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Montserrat } from 'next/font/google';
-import { cn } from '@/lib/utils';
 import {
   Code,
   ImageIcon,
@@ -13,7 +12,10 @@ import {
   Settings,
   VideoIcon,
 } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
+import FreeCounter from '@/components/free-counter';
 
 const monserrat = Montserrat({ subsets: ['latin'], weight: '600' });
 
@@ -62,7 +64,11 @@ const routes = [
   },
 ];
 
-export default function Sidebar() {
+type SidebarProps = {
+  apiLimitCount: number;
+};
+
+export default function Sidebar({ apiLimitCount = 0 }: SidebarProps) {
   const pathname = usePathname();
   return (
     <div className='h-full space-y-4 py-4 flex flex-col text-white bg-[#111827]'>
@@ -94,6 +100,7 @@ export default function Sidebar() {
           ))}
         </div>
       </div>
+      <FreeCounter apiLimitCount={apiLimitCount} />
     </div>
   );
 }
