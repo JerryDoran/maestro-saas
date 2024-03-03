@@ -17,6 +17,7 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useProModal } from '@/hooks/use-pro-modal';
+import { toast } from 'react-hot-toast';
 
 export default function VideoPage() {
   const router = useRouter();
@@ -45,9 +46,10 @@ export default function VideoPage() {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
+      } else {
+        toast.error('Something went wrong');
       }
-    }
-    finally {
+    } finally {
       // This refetches data for all server components no matter what page you are on
       router.refresh();
     }

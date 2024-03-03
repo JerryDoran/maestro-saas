@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { toast } from 'react-hot-toast';
 
 const tools = [
   {
@@ -68,7 +69,7 @@ export default function ProModal() {
 
       window.location.href = response.data.url;
     } catch (error: any) {
-      console.log(error, 'STRIPE_CLIENT_ERROR');
+      toast.error('Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -110,6 +111,7 @@ export default function ProModal() {
         </DialogHeader>
         <DialogFooter>
           <Button
+            disabled={loading}
             onClick={onSubscribe}
             size='lg'
             variant='premium'

@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/select';
 import { Card, CardFooter } from '@/components/ui/card';
 import { useProModal } from '@/hooks/use-pro-modal';
+import { toast } from 'react-hot-toast';
 
 export default function ImagePage() {
   const router = useRouter();
@@ -59,8 +60,10 @@ export default function ImagePage() {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
+      } else {
+        toast.error('Something went wrong');
       }
-    }finally {
+    } finally {
       // This refetches data for all server components no matter what page you are on
       router.refresh();
     }
